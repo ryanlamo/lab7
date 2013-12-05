@@ -14,5 +14,31 @@
 int main(void) {
     WDTCTL = WDTPW | WDTHOLD;	// Stop watchdog timer
 	
+    initLED();
+    initADC();
+
+    for(;;)
+    {
+    	ADC10CTL0 |= ENC + ADC10SC;
+    	unsigned int getLeftSensorReading();
+
+    	if (ADC10MEM < 0x0DA)
+    	    		P1OUT &= ~ 0x01;
+    	    	else
+    	    		P1OUT |= 0x01;
+
+    	unsigned int getRightSensorReading();
+
+    	if (ADC10MEM < 0x0AF)
+    		P6OUT &= ~ 0x01;
+    	else
+    		P6OUT |= 0x01;
+    }
+
+
+
+
+
+
 	return 0;
 }

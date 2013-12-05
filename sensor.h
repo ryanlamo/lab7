@@ -8,7 +8,13 @@
 #ifndef SENSOR_H_
 #define SENSOR_H_
 
+void initLED();
+
 void initADC();
+
+unsigned int getLeftSensorReading();
+
+unsigned int getRightSensorReading();
 
 
 #endif /* SENSOR_H_ */
