@@ -7,15 +7,8 @@
 
 #include "sensor.h"
 
-void initLED()
-{
-	P1DIR |= 0x01;
-
-}
-
 void initADC()
 {
-	WDTCTL = WDTPW + WDTHOLD;
 	ADC10CTL0 = ADC10SHT_3 + ADC10ON + ADC10IE;
 
 	//Set pins 1 and 4 to Analog input
@@ -28,21 +21,24 @@ void initADC()
 
 unsigned int getLeftSensorReading()
 {
-	ADC10CTL0 &= INCH_1;
+	ADC10CTL0 &= ~ENC;
+	ADC10CTL0 &= ~(INCH_1|INCH_4);
 	ADC10CTL1 |= INCH_1;
-	ADC10CTL0 |= ENC;
+	ADC10CTL0 |= ENC + ADC10SC;
 	__bis_SR_register(CPUOFF + GIE);
 
-
+	return ADC10MEM;
 }
 
 unsigned int getRightSensorReading()
 {
-	ADC10CTL0 &= INCH_4;
+	ADC10CTL0 &= ~ENC;
+	ADC10CTL0 &= ~(INCH_1|INCH_4);
 	ADC10CTL1 |= INCH_4;
-	ADC10CTL0 |= ENC;
+	ADC10CTL0 |= ENC + ADC10SC;
 	__bis_SR_register(CPUOFF + GIE);
 
+	return ADC10MEM;
 }
 
 

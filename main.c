@@ -4,7 +4,8 @@
  * Description: This program will allow the MSP 430 to take an analog input from
  * the robot IR sensor, convert it to digital and turn the LED lights on when the
  * robot is close to a wall.
- * Documentation:
+ * Documentation: I referenced Jason Mossing's code in which I learned that I should clear each
+ * input before taking a reading for the sensor readings.
  */
 
 
@@ -14,12 +15,13 @@
 int main(void) {
     WDTCTL = WDTPW | WDTHOLD;	// Stop watchdog timer
 	
-    initLED();
+    P1DIR |= 0x01;
+    P6DIR |= 0x01;
+
     initADC();
 
     for(;;)
     {
-    	ADC10CTL0 |= ENC + ADC10SC;
     	unsigned int getLeftSensorReading();
 
     	if (ADC10MEM < 0x0DA)
@@ -35,10 +37,11 @@ int main(void) {
     		P6OUT |= 0x01;
     }
 
-
-
-
-
-
 	return 0;
+}
+
+#pragma vector=ADC10_VECTOR
+__interrupt void ADC10_ISR(void)
+{
+	__bic_SR_register_on_exit(CPUOFF);
 }
