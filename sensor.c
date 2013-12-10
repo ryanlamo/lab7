@@ -14,7 +14,7 @@ void initADC()
 
 	ADC10CTL1 = ADC10DIV_7;
 
-	//Set pins 1 and 4 to Analog input
+	//Set pins 1, 4 and 5 to Analog input
 	ADC10AE0 |= BIT1;
 	ADC10AE0 |= BIT4;
 	ADC10AE0 |= BIT5;
@@ -26,7 +26,7 @@ void initADC()
 unsigned int getLeftSensorReading()
 {
 	ADC10CTL0 &= ~ENC;
-	ADC10CTL1 = INCH_1;
+	ADC10CTL1 |= INCH_1;
 	ADC10AE0 |= BIT1;
 	ADC10CTL0 |= ENC + ADC10SC;
 	__bis_SR_register(CPUOFF + GIE);
@@ -37,7 +37,7 @@ unsigned int getLeftSensorReading()
 unsigned int getRightSensorReading()
 {
 	ADC10CTL0 &= ~ENC;
-	ADC10CTL1 = INCH_4;
+	ADC10CTL1 |= INCH_4;
 	ADC10AE0 |= BIT4;
 	ADC10CTL0 |= ENC + ADC10SC;
 	__bis_SR_register(CPUOFF + GIE);
@@ -48,7 +48,7 @@ unsigned int getRightSensorReading()
 unsigned int getCenterSensorReading()
 {
 	ADC10CTL0 &= ~ENC;
-	ADC10CTL1 = INCH_5;
+	ADC10CTL1 |= INCH_5;
 	ADC10AE0 |= BIT5;
 	ADC10CTL0 |= ENC + ADC10SC;
 	__bis_SR_register(CPUOFF + GIE);
